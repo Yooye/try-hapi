@@ -1,19 +1,16 @@
 const Hapi = require('hapi');
+const config = require('./config');
+const routesHelloHapi = require('./routes/hello-hapi.js');
+require('env2')('./.env');
 const server =new Hapi.Server();
 
 server.connection({
-    port:'3000',
-    host:'127.0.0.1'
+    port:config.port,
+    host:config.host
 })
 const init = async ()=>{
     server.route([
-        {
-            method:'GET',
-            path:'/',
-            handler:(req,res)=>{
-                res('hello Hapi,Yeah!!!!')
-            }
-        }
+        ...routesHelloHapi
     ])
 
     await server.start();
